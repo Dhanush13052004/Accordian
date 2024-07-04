@@ -1,3 +1,40 @@
+.App {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+input[type='text'],
+input[type='email'],
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+input[type='text']:disabled {
+  background-color: #f0f0f0;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
 .user-list {
   display: flex;
   flex-direction: column;
@@ -7,42 +44,46 @@
   border: 1px solid #ccc;
   padding: 10px;
   margin: 10px 0;
-  position: relative;
 }
 
 .user-card .user-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
 .user-card img {
-  width: 80px; /* Increased width */
-  height: 80px; /* Increased height */
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-card .user-details {
+  display: none;
+  padding: 10px 0;
 }
 
 .user-card.active .user-details {
   display: block;
 }
 
-.user-details {
-  display: none;
-  padding: 10px 0;
-}
-
 .edit-form input,
 .edit-form select,
 .edit-form textarea {
-  display: block;
-  margin: 5px 0;
-}
-
-.edit-form button {
-  margin: 5px 5px 0 0;
+  margin-bottom: 10px;
 }
 
 .user-header span {
-  font-size: 20px;
-  cursor: pointer;
+  font-size: 24px;
+  margin-left: 10px;
+}
+
+.user-header p {
+  margin: 5px 0;
+}
+
+.user-header button {
+  margin-left: 10px;
 }
