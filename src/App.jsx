@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import data from "./celebrities.json"
+import data from "./celebrities.json";
 
 const App = () => {
   const [users, setUsers] = useState([]);
@@ -8,12 +8,14 @@ const App = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [editUser, setEditUser] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
+  const genders = ['Male', 'Female', 'Transgender', 'Rather not say', 'Other'];
+
   useEffect(() => {
     setUsers(data);
   }, []);
 
   const calculateAge = (dob) => {
-    const ageDiffMs = Date.now() - dob.getTime();
+    const ageDiffMs = Date.now() - new Date(dob).getTime();
     const ageDate = new Date(ageDiffMs);
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   };
@@ -24,12 +26,12 @@ const App = () => {
       return;
     }
     setEditIndex(index);
-    setEditUser(users[index]);
+    setEditUser({ ...users[index] }); // Copy user data to editUser
   };
 
   const handleSave = () => {
     const updatedUsers = [...users];
-    updatedUsers[editIndex] = editUser;
+    updatedUsers[editIndex] = { ...editUser };
     setUsers(updatedUsers);
     setEditIndex(null);
   };
@@ -55,6 +57,11 @@ const App = () => {
     if (window.confirm('Do you really want to delete this user?')) {
       const updatedUsers = users.filter((_, i) => i !== index);
       setUsers(updatedUsers);
+      // Reset edit mode if deleting the currently edited user
+      if (editIndex === index) {
+        setEditIndex(null);
+        setEditUser({});
+      }
     }
   };
 
@@ -83,17 +90,16 @@ const App = () => {
               <img src={user.picture} alt={`${user.first} ${user.last}`} />
               <div>
                 <h2>{`${user.first} ${user.last}`}</h2>
-                <p>{user.email}</p>
-                <p>Age: {user.age}</p>
-                <p>Gender: {user.gender}</p>
-                <p>Country: {user.country}</p>
               </div>
-              <button onClick={() => handleEdit(index)}>Edit</button>
-              <button onClick={() => handleDelete(index)}>Delete</button>
               <span>{activeIndex === index ? '-' : '+'}</span>
             </div>
             {activeIndex === index && (
               <div className="user-details">
+                <p>Email: {user.email}</p>
+                <p>Age: {calculateAge(user.dob)}</p>
+                <p>Gender: {user.gender}</p>
+                <p>Country: {user.country}</p>
+                <p>Description: {user.description}</p>
                 {editIndex === index ? (
                   <div className="edit-form">
                     <input
@@ -122,11 +128,9 @@ const App = () => {
                       value={editUser.gender}
                       onChange={handleChange}
                     >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Transgender">Transgender</option>
-                      <option value="Rather not say">Rather not say</option>
-                      <option value="Other">Other</option>
+                      {genders.map(gender => (
+                        <option key={gender} value={gender}>{gender}</option>
+                      ))}
                     </select>
                     <input
                       type="text"
@@ -141,23 +145,13 @@ const App = () => {
                       onChange={handleChange}
                       required
                     />
-                    <button
-                      onClick={handleSave}
-                      disabled={
-                        !editUser.first ||
-                        !editUser.last ||
-                        !editUser.email ||
-                        !editUser.country ||
-                        !editUser.description
-                      }
-                    >
-                      Save
-                    </button>
+                    <button onClick={handleSave}>Save</button>
                     <button onClick={handleCancel}>Cancel</button>
                   </div>
                 ) : (
                   <div>
-                    <p>{user.description}</p>
+                    <button onClick={() => handleEdit(index)}>Edit</button>
+                    <button onClick={() => handleDelete(index)}>Delete</button>
                   </div>
                 )}
               </div>
