@@ -1,0 +1,48 @@
+.user-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px 0;
+  position: relative;
+}
+
+.user-card .user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-card img {
+  width: 80px; /* Increased width */
+  height: 80px; /* Increased height */
+  border-radius: 50%;
+}
+
+.user-card.active .user-details {
+  display: block;
+}
+
+.user-details {
+  display: none;
+  padding: 10px 0;
+}
+
+.edit-form input,
+.edit-form select,
+.edit-form textarea {
+  display: block;
+  margin: 5px 0;
+}
+
+.edit-form button {
+  margin: 5px 5px 0 0;
+}
+
+.user-header span {
+  font-size: 20px;
+  cursor: pointer;
+}
